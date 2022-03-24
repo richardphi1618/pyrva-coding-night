@@ -1,9 +1,14 @@
 import sqlalchemy as db
-engine = db.create_engine('sqlite:///census.sqlite')
+
+engine = db.create_engine("sqlite:///example_data.db")
 connection = engine.connect()
 metadata = db.MetaData()
-census = db.Table('census', metadata, autoload=True, autoload_with=engine)
+ssh_logins = db.Table("logins", metadata, autoload=True, autoload_with=engine)
 # Print the column names
-print(census.columns.keys())
+print(ssh_logins.columns.keys())
 # Print full table metadata
-print(repr(metadata.tables['census']))
+print(repr(metadata.tables["logins"]))
+
+
+select * from example_data.logins
+limit 100
