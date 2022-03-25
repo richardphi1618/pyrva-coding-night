@@ -1,4 +1,4 @@
-# working on sqlalchemy
+# 20220224 -  working w/ sqlalchemy
 
 ## tools:
 
