@@ -6,7 +6,8 @@ A_PROPER_CIDER = "strongbow"
 GT = "gt"
 BACARDI_SPECIAL = "bacardi_special"
 
-class Ingredients(IntEnum):
+
+class ingredients_cost(IntEnum):
     rum = 65
     grenadine = 10
     juice = 10
@@ -15,24 +16,42 @@ class Ingredients(IntEnum):
     gin = 85
 
 
-def compute_cost(drink: str, is_student: bool, amount: int):
+def drink_cost(drink: str, amount: int):
+    # import ingredients
+    i = ingredients_cost
+
+    # check for error conditions
     if amount > 2 and (drink == GT or drink == BACARDI_SPECIAL):
         raise ValueError('Too many drinks, max 2.')
 
-    ingredient = Ingredients
-
+    # compute price
     drink_prices = {
         ONE_BEER: 74,
         ONE_CIDER: 103,
         A_PROPER_CIDER: 110,
-        GT: ingredient.gin + ingredient.tonic_water + ingredient.green_stuff,
-        BACARDI_SPECIAL: ingredient.gin / 2 + ingredient.rum + ingredient.grenadine + ingredient.juice
+        GT: i.gin + i.tonic_water + i.green_stuff,
+        BACARDI_SPECIAL: i.gin / 2 + i.rum + i.grenadine + i.juice
     }
-
     price = drink_prices.get(drink, None)
     if price is None:
         raise ValueError('No such drink exists')
 
-    if is_student and (drink == ONE_CIDER or drink == ONE_BEER or drink == A_PROPER_CIDER):
-        price = price - price / 10
     return price * amount
+
+
+def compute_cost(drink: str, is_student: bool, amount: int):
+    # calculate cost of drinks
+    drinks_cost = drink_cost(drink, amount)
+
+    # calculate drinks discounts
+    if is_student and (drink == ONE_CIDER or drink == ONE_BEER or drink == A_PROPER_CIDER):
+        drinks_cost = drinks_cost - drinks_cost / 10
+
+    # calculate cost of food
+    food_cost = 0
+
+    # calculate food discounts
+    # TBD
+
+    # return total cost
+    return drinks_cost + food_cost
